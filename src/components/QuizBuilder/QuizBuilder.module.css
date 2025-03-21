@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 12px;
+}
+
+.field {
+  width: 400px;
+  outline: none;
+  padding: 6px;
+}
+
+.questions {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.select {
+  width: 200px;
+  outline: none;
+  padding: 5.5px;
+}
+
+.removeBtn {
+  padding: 6px 12px;
+}
+
+.options {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

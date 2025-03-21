@@ -65,24 +65,29 @@ export default function QuizBuilder() {
         onSubmit={handleSubmit}
       >
         {({ values }) => (
-          <Form>
+          <Form className={css.container}>
             <label>Title</label>
-            <Field name="title" type="text" />
+            <Field name="title" type="text" className={css.field} />
             <label>Description</label>
-            <Field name="description" type="text" />
+            <Field name="description" type="text" className={css.field} />
             <FieldArray name="questions">
               {({ push, remove }) => (
                 <div>
                   {values.questions.map((q, index) => (
-                    <div key={q.id || index}>
-                      <label>Question {index + 1}</label>
+                    <div key={q.id || index} className={css.questions}>
+                      <label>{`${index + 1}. `}</label>
                       <Field
                         name={`questions.${index}.label`}
                         type="text"
                         placeholder="Enter question"
+                        className={css.field}
                       />
 
-                      <Field as="select" name={`questions.${index}.type`}>
+                      <Field
+                        as="select"
+                        name={`questions.${index}.type`}
+                        className={css.select}
+                      >
                         <option value="">Select question type</option>
                         <option value="text">Text</option>
                         <option value="single">Single Choice</option>
@@ -94,7 +99,7 @@ export default function QuizBuilder() {
                       ) && (
                         <FieldArray name={`questions.${index}.options`}>
                           {({ push, remove }) => (
-                            <div>
+                            <div className={css.options}>
                               <label>Options</label>
                               {values.questions[index].options?.map(
                                 (_, optIdx) => (
@@ -102,25 +107,30 @@ export default function QuizBuilder() {
                                     <Field
                                       name={`questions.${index}.options.${optIdx}`}
                                       type="text"
+                                      className={css.field}
                                     />
                                     <button
                                       type="button"
                                       onClick={() => remove(optIdx)}
                                     >
-                                      ✕ Remove Option
+                                      Remove Option
                                     </button>
                                   </div>
                                 )
                               )}
                               <button type="button" onClick={() => push("")}>
-                                + Add Option
+                                Add Option
                               </button>
                             </div>
                           )}
                         </FieldArray>
                       )}
 
-                      <button type="button" onClick={() => remove(index)}>
+                      <button
+                        type="button"
+                        onClick={() => remove(index)}
+                        className={css.removeBtn}
+                      >
                         Remove Question
                       </button>
                     </div>
