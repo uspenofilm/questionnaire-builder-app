@@ -1,9 +1,11 @@
 import css from "./BuilderPage.module.css";
+import QuizBuilder from "../../components/QuizBuilder/QuizBuilder.jsx";
 
 export default function BuilderPage() {
   return (
     <>
-      <h1>Builder Page</h1>
+      <h2>Create a Quiz</h2>
+      <QuizBuilder />
     </>
   );
 }
