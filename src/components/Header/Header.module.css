@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 360px;
+  gap: 48px;
+  justify-content: left;
+  align-items: center;
+  padding: 24px;
+}
+
+.link {
+  color: #101828;
+  text-decoration: none;
+}
+
+.active {
+  color: #0b44cd;
+  font-weight: 600;
+  text-decoration: none;
+}

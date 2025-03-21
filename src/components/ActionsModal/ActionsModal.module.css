@@ -1,0 +1,26 @@
+.container {
+  position: absolute;
+  top: 24px;
+  right: 48px;
+  z-index: 100;
+  border: 1px solid darkblue;
+  padding: 12px;
+  width: 100px;
+}
+
+.dropdownList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.dropdownItem {
+  cursor: pointer;
+}
+
+.dropdownItem:hover {
+  color: #0b44cd;
+  font-weight: 500;
+}

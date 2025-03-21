@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 12px;
+  width: 360px;
+  text-align: left;
+  padding: 24px;
+  box-sizing: border-box;
+  border: 1px solid darkblue;
+}
+
+.actionBtn {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+}
+
+.bottomBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 48px;
+  color: #0b44cd;
+  font-size: 14px;
+}

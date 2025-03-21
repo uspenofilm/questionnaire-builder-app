@@ -37,7 +37,7 @@ export default function ActionsModal({ quiz, onClose, containerRef }) {
   };
 
   return (
-    <div ref={dropdownRef}>
+    <div ref={dropdownRef} className={css.container}>
       <ul className={css.dropdownList}>
         <li onClick={handleEditClick} className={css.dropdownItem}>
           Edit

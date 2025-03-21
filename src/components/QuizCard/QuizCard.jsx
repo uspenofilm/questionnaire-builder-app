@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
-import { useSelector } from "react-redux";
 import ActionsModal from "../ActionsModal/ActionsModal.jsx";
 import css from "./QuizCard.module.css";
+import { IoEllipsisVerticalOutline } from "@react-icons/all-files/io5/IoEllipsisVerticalOutline.js";
 
 export default function QuizCard({ quiz }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -13,16 +13,21 @@ export default function QuizCard({ quiz }) {
 
   return (
     <div className={css.container}>
-      <h2>{quiz.name}</h2>
+      <h3>{quiz.name}</h3>
       <p>{quiz.description}</p>
+      <div className={css.bottomBlock}>
+        <p>{`Questions: ${quiz.questions}`}</p>
+        <p>{`Completions: ${quiz.completions}`}</p>
+      </div>
       <div ref={containerRef}>
         <button
           onClick={(e) => {
             e.stopPropagation();
             toggleModal();
           }}
+          className={css.actionBtn}
         >
-          ...
+          <IoEllipsisVerticalOutline />
         </button>
         {modalOpen && (
           <ActionsModal
