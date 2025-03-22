@@ -1,4 +1,4 @@
-import { Formik, Form, Field, FieldArray } from "formik";
+import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { v4 as uuid } from "uuid";
 import css from "./QuizBuilder.module.css";
@@ -19,12 +19,105 @@ const validationSchema = Yup.object({
         type: Yup.string().required("Type is required"),
         options: Yup.array().when("type", {
           is: (type) => type === "single" || type === "multiple",
-          then: (schema) => schema.min(1, "At least one option is required"),
+          then: (schema) =>
+            schema
+              .min(1, "At least one option is required")
+              .of(Yup.string().required("Option is required")),
         }),
       })
     )
     .min(1, "At least one question is required"),
 });
+
+function QuestionItem({ q, index, remove }) {
+  return (
+    <div className={css.questionWrapper}>
+      <div className={css.questions}>
+        <label>{`${index + 1}. `}</label>
+        <div className={css.fieldError}>
+          <Field
+            name={`questions.${index}.label`}
+            type="text"
+            placeholder="Enter question"
+            className={css.field}
+          />
+          <ErrorMessage
+            name={`questions.${index}.label`}
+            component="div"
+            className={css.error}
+          />
+        </div>
+        <div className={css.fieldError}>
+          <Field
+            as="select"
+            name={`questions.${index}.type`}
+            className={css.select}
+          >
+            <option value="">Select question type</option>
+            <option value="text">Text</option>
+            <option value="single">Single Choice</option>
+            <option value="multiple">Multiple Choices</option>
+          </Field>
+          <ErrorMessage
+            name={`questions.${index}.type`}
+            component="div"
+            className={css.error}
+          />
+        </div>
+        <button type="button" onClick={() => remove(index)} className={css.btn}>
+          Remove Question
+        </button>
+      </div>
+
+      {["single", "multiple"].includes(q?.type) && (
+        <FieldArray name={`questions.${index}.options`}>
+          {({ push, remove }) => (
+            <div className={css.optionsWrapper}>
+              <label>Options</label>
+              <div className={css.options}>
+                {q.options.length === 0 && (
+                  <ErrorMessage
+                    name={`questions.${index}.options`}
+                    component="div"
+                    className={css.error}
+                  />
+                )}
+                {q.options?.map((_, optIdx) => (
+                  <div key={optIdx} className={css.option}>
+                    <Field
+                      name={`questions.${index}.options.${optIdx}`}
+                      type="text"
+                      className={css.field}
+                    />
+                    <ErrorMessage
+                      name={`questions.${index}.options.${optIdx}`}
+                      component="div"
+                      className={css.error}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => remove(optIdx)}
+                      className={css.btn}
+                    >
+                      Remove Option
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => push("")}
+                  className={css.addOptBtn}
+                >
+                  Add Option
+                </button>
+              </div>
+            </div>
+          )}
+        </FieldArray>
+      )}
+    </div>
+  );
+}
 
 export default function QuizBuilder() {
   const handleSubmit = async (values) => {
@@ -68,86 +161,41 @@ export default function QuizBuilder() {
           <Form className={css.container}>
             <label>Title</label>
             <Field name="title" type="text" className={css.field} />
+            <ErrorMessage name="title" component="div" className={css.error} />
             <label>Description</label>
             <Field name="description" type="text" className={css.field} />
+            <ErrorMessage
+              name="description"
+              component="div"
+              className={css.error}
+            />
             <FieldArray name="questions">
               {({ push, remove }) => (
                 <div>
                   {values.questions.map((q, index) => (
-                    <div key={q.id || index} className={css.questions}>
-                      <label>{`${index + 1}. `}</label>
-                      <Field
-                        name={`questions.${index}.label`}
-                        type="text"
-                        placeholder="Enter question"
-                        className={css.field}
-                      />
-
-                      <Field
-                        as="select"
-                        name={`questions.${index}.type`}
-                        className={css.select}
-                      >
-                        <option value="">Select question type</option>
-                        <option value="text">Text</option>
-                        <option value="single">Single Choice</option>
-                        <option value="multiple">Multiple Choices</option>
-                      </Field>
-
-                      {["single", "multiple"].includes(
-                        values.questions[index]?.type
-                      ) && (
-                        <FieldArray name={`questions.${index}.options`}>
-                          {({ push, remove }) => (
-                            <div className={css.options}>
-                              <label>Options</label>
-                              {values.questions[index].options?.map(
-                                (_, optIdx) => (
-                                  <div key={optIdx}>
-                                    <Field
-                                      name={`questions.${index}.options.${optIdx}`}
-                                      type="text"
-                                      className={css.field}
-                                    />
-                                    <button
-                                      type="button"
-                                      onClick={() => remove(optIdx)}
-                                    >
-                                      Remove Option
-                                    </button>
-                                  </div>
-                                )
-                              )}
-                              <button type="button" onClick={() => push("")}>
-                                Add Option
-                              </button>
-                            </div>
-                          )}
-                        </FieldArray>
-                      )}
-
-                      <button
-                        type="button"
-                        onClick={() => remove(index)}
-                        className={css.removeBtn}
-                      >
-                        Remove Question
-                      </button>
-                    </div>
+                    <QuestionItem
+                      key={q.id || index}
+                      q={q}
+                      index={index}
+                      remove={remove}
+                    />
                   ))}
                   <button
                     type="button"
                     onClick={() =>
                       push({ id: uuid(), label: "", type: "", options: [] })
                     }
+                    className={css.btn}
                   >
-                    + Add Question
+                    Add Question
                   </button>
                 </div>
               )}
             </FieldArray>
 
-            <button type="submit">Save Questionnaire</button>
+            <button type="submit" className={css.saveBtn}>
+              Save
+            </button>
           </Form>
         )}
       </Formik>

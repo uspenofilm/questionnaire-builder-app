@@ -9,33 +9,72 @@
   width: 400px;
   outline: none;
   padding: 6px;
+  font-size: 12px;
 }
 
 .questions {
   display: flex;
   flex-direction: row;
   gap: 12px;
-  align-items: center;
-  margin-bottom: 12px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.questionWrapper {
+  display: flex;
+  flex-direction: column;
 }
 
 .select {
   width: 200px;
   outline: none;
   padding: 5.5px;
+  font-size: 12px;
 }
 
-.removeBtn {
+.btn {
   padding: 6px 12px;
+  font-size: 12px;
 }
 
 .options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.optionsWrapper {
   display: flex;
   flex-direction: row;
   gap: 12px;
 }
 
-.wrapper {
+.option {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.addOptBtn {
+  padding: 6px 12px;
+  font-size: 12px;
+  display: inline-block;
+  width: 120px;
+  margin-bottom: 24px;
+}
+
+.saveBtn {
+  width: 120px;
+  padding: 6px 12px;
+}
+
+.error {
+  font-size: 12px;
+  font-weight: 500;
+  color: #0b44cd;
+}
+
+.fieldError {
   display: flex;
   flex-direction: column;
   gap: 12px;
