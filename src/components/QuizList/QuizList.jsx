@@ -1,20 +1,14 @@
 import css from "./QuizList.module.css";
-import QuizCard from "../QuizCard/QuizCard";
-// import { useSelector } from "react-redux";
-// import { selectCars } from "../../redux/Cars/slice";
+import QuizCard from "../QuizCard/QuizCard.jsx";
+import { useSelector } from "react-redux";
+import { selectQuiz } from "../../redux/slice.js";
 
 export default function QuizList() {
-  // const quizCollection = useSelector(selectQuiz);
-
-  const quizCollection = [
-    { id: "01", name: "first", description: "first quiz" },
-    { id: "02", name: "second", description: "second quiz" },
-    { id: "03", name: "third", description: "third quiz" },
-  ];
-
+  const quizCollection = useSelector(selectQuiz);
+  console.log(quizCollection);
   return (
     <ul className={css.container}>
-      {quizCollection.map((quiz) => {
+      {quizCollection.quiz.map((quiz) => {
         return (
           <li key={quiz.id}>
             <QuizCard quiz={quiz} />

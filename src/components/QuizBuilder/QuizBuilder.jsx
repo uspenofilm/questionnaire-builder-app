@@ -2,6 +2,8 @@ import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { v4 as uuid } from "uuid";
 import css from "./QuizBuilder.module.css";
+import { useDispatch } from "react-redux";
+import { addQuiz } from "../../redux/operations.js";
 
 const initialValues = {
   title: "",
@@ -120,8 +122,15 @@ function QuestionItem({ q, index, remove }) {
 }
 
 export default function QuizBuilder() {
+  const dispatch = useDispatch();
+
+  const onAddQuiz = (newQuiz) => {
+    dispatch(addQuiz(newQuiz));
+  };
+
   const handleSubmit = async (values) => {
     const questionCount = values.questions.length;
+    onAddQuiz(values);
 
     const payload = {
       ...values,
