@@ -5,12 +5,12 @@ import { selectQuiz } from "../../redux/slice.js";
 
 export default function QuizList() {
   const quizCollection = useSelector(selectQuiz);
-  console.log(quizCollection);
+  console.log("ssss", quizCollection);
   return (
     <ul className={css.container}>
       {quizCollection.quiz.map((quiz) => {
         return (
-          <li key={quiz.id}>
+          <li key={quiz._id}>
             <QuizCard quiz={quiz} />
           </li>
         );

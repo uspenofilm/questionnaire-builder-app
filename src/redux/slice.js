@@ -25,22 +25,22 @@ const quizSlice = createSlice({
       .addCase(fetchQuiz.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.items = action.payload;
+        state.items.quiz = action.payload;
       })
       .addCase(addQuiz.pending, handlePending)
       .addCase(addQuiz.rejected, handleRejected)
       .addCase(addQuiz.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.items.push(action.payload);
+        state.items.quiz.push(action.payload);
       })
       .addCase(deleteQuiz.pending, handlePending)
       .addCase(deleteQuiz.rejected, handleRejected)
       .addCase(deleteQuiz.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.items = state.items.filter(
-          (item) => item.id !== action.payload.id
+        state.items.quiz = state.items.quiz.filter(
+          (q) => q.id !== action.payload.id
         );
       });
   },
