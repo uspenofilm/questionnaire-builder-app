@@ -23,12 +23,12 @@ export default function ActionsModal({ quiz, onClose, containerRef }) {
   }, [onClose, containerRef]);
 
   const handleEditClick = () => {
-    navigate(`/:${quiz.id}/edit`);
+    navigate(`/:${quiz._id}/edit`);
     onClose();
   };
 
   const handleRunClick = () => {
-    navigate(`/:${quiz.id}/run`);
+    navigate(`/:${quiz._id}/run`);
     onClose();
   };
 
