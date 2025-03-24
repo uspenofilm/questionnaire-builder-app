@@ -1,9 +1,12 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import css from "./ActionsModal.module.css";
+import { useDispatch } from "react-redux";
+import { deleteQuiz } from "../../redux/operations.js";
 
 export default function ActionsModal({ quiz, onClose, containerRef }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const dropdownRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -23,16 +26,17 @@ export default function ActionsModal({ quiz, onClose, containerRef }) {
   }, [onClose, containerRef]);
 
   const handleEditClick = () => {
-    navigate(`/:${quiz._id}/edit`);
+    navigate(`/${quiz._id}/edit`);
     onClose();
   };
 
   const handleRunClick = () => {
-    navigate(`/:${quiz._id}/run`);
+    navigate(`/${quiz._id}/run`);
     onClose();
   };
 
   const handleDeleteClick = () => {
+    dispatch(deleteQuiz(quiz._id));
     onClose();
   };
 

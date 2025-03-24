@@ -141,6 +141,9 @@ export default function QuizBuilder() {
       alert("Saved");
       navigate("/");
     }
+    if (addItemStatus === "failed") {
+      alert("Error!");
+    }
   }, [addItemStatus, navigate]);
 
   const onAddQuiz = (newQuiz) => {
@@ -162,7 +165,7 @@ export default function QuizBuilder() {
 
   return (
     <div>
-      {addItemStatus === "failed" && alert("Error!")}
+      {addItemStatus === "failed" && { addItemError }}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

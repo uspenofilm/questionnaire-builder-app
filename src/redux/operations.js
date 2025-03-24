@@ -19,6 +19,31 @@ export const fetchQuiz = createAsyncThunk(
   }
 );
 
+export const fetchQuizById = createAsyncThunk(
+  "quiz/fetchById",
+  async (quizId, thunkAPI) => {
+    try {
+      const response = await authInstance.get(`/quiz/${quizId}`);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const runQuiz = createAsyncThunk(
+  "quiz/runQuiz",
+  async (quiz, thunkAPI) => {
+    try {
+      // const response = await authInstance.post("/quiz/", quiz);
+      const response = { data: {} };
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 export const addQuiz = createAsyncThunk(
   "quiz/addQuiz",
   async (quiz, thunkAPI) => {
