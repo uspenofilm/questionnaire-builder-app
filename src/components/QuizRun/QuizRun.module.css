@@ -1,0 +1,63 @@
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  align-items: left;
+  padding: 24px;
+  gap: 24px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 12px;
+}
+
+.description {
+  font-style: italic;
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+
+.field {
+  width: 400px;
+  outline: none;
+  padding: 6px;
+  font-size: 12px;
+}
+
+.questions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.question {
+  font-weight: 500;
+}
+
+.saveBtn {
+  width: 120px;
+  padding: 6px 12px;
+}
+
+.error {
+  font-size: 12px;
+  font-weight: 500;
+  color: #0b44cd;
+}
+
+.options {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.option {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+}

@@ -20,74 +20,80 @@ const validationSchema = Yup.object({
 
 function QuestionItem({ q, index }) {
   return (
-    <div className={css.questionWrapper}>
-      <div className={css.questions}>
+    <div className={css.questions}>
+      <div className={css.question}>
         <label>{`${index + 1}. `}</label>
-        <div className={css.fieldError}>
-          <span>{q.label}</span>
-        </div>
-        {q.type === "text" && (
-          <>
-            <Field
-              name={`answers.${index}.text`}
-              type="text"
-              placeholder="Enter answer"
-              className={css.field}
-            />
-            <ErrorMessage
-              name={`answers.${index}.text`}
-              component="div"
-              className={css.error}
-            />
-          </>
-        )}
-        {q.type === "single" && (
-          <>
-            <div role="group" aria-labelledby="my-radio-group">
-              {q.options.map((option, optionIndex) => {
-                return (
-                  <label key={optionIndex}>
-                    <Field
-                      type="radio"
-                      name={`answers.${index}.single`}
-                      value={option}
-                    />
-                    {option}
-                  </label>
-                );
-              })}
-            </div>
-            <ErrorMessage
-              name={`answers.${index}.single`}
-              component="div"
-              className={css.error}
-            />
-          </>
-        )}
-        {q.type === "multiple" && (
-          <>
-            <div role="group" aria-labelledby="checkbox-group">
-              {q.options.map((option, optionIndex) => {
-                return (
-                  <label key={optionIndex}>
-                    <Field
-                      type="checkbox"
-                      name={`answers.${index}.multiple`}
-                      value={option}
-                    />
-                    {option}
-                  </label>
-                );
-              })}
-            </div>
-            <ErrorMessage
-              name={`answers.${index}.multiple`}
-              component="div"
-              className={css.error}
-            />
-          </>
-        )}
+        <span>{q.label}</span>
       </div>
+      {q.type === "text" && (
+        <>
+          <Field
+            name={`answers.${index}.text`}
+            type="text"
+            placeholder="Enter answer"
+            className={css.field}
+          />
+          <ErrorMessage
+            name={`answers.${index}.text`}
+            component="div"
+            className={css.error}
+          />
+        </>
+      )}
+      {q.type === "single" && (
+        <>
+          <div
+            role="group"
+            aria-labelledby="my-radio-group"
+            className={css.options}
+          >
+            {q.options.map((option, optionIndex) => {
+              return (
+                <label key={optionIndex} className={css.option}>
+                  <Field
+                    type="radio"
+                    name={`answers.${index}.single`}
+                    value={option}
+                  />
+                  {option}
+                </label>
+              );
+            })}
+          </div>
+          <ErrorMessage
+            name={`answers.${index}.single`}
+            component="div"
+            className={css.error}
+          />
+        </>
+      )}
+      {q.type === "multiple" && (
+        <>
+          <div
+            role="group"
+            aria-labelledby="checkbox-group"
+            className={css.options}
+          >
+            {q.options.map((option, optionIndex) => {
+              return (
+                <label key={optionIndex} className={css.option}>
+                  <Field
+                    type="checkbox"
+                    name={`answers.${index}.multiple`}
+                    value={option}
+                  />
+                  {option}
+                </label>
+              );
+            })}
+          </div>
+          <ErrorMessage
+            name={`answers.${index}.multiple`}
+            component="div"
+            className={css.error}
+          />
+        </>
+      )}
     </div>
   );
 }
@@ -138,8 +144,8 @@ function QuizRun({ quiz }) {
       >
         {({ values }) => (
           <Form className={css.container} disabled={runStatus !== "loading"}>
-            <label>{quiz.name}</label>
-            <label>{quiz.description}</label>
+            <h2>{quiz.name}</h2>
+            <p className={css.description}>{quiz.description}</p>
             {quiz.questions.map((q, index) => {
               return <QuestionItem key={q.id || index} q={q} index={index} />;
             })}
@@ -183,7 +189,7 @@ export default function QuizRunPage() {
   }
 
   return (
-    <div>
+    <div className={css.pageContainer}>
       <QuizRun quiz={quiz} />
     </div>
   );
