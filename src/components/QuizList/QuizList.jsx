@@ -8,7 +8,7 @@ export default function QuizList() {
   console.log("ssss", quizCollection);
   return (
     <ul className={css.container}>
-      {quizCollection.quiz.map((quiz) => {
+      {quizCollection.data.map((quiz) => {
         return (
           <li key={quiz._id}>
             <QuizCard quiz={quiz} />

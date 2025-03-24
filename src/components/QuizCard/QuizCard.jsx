@@ -16,8 +16,10 @@ export default function QuizCard({ quiz }) {
       <h3>{quiz.name}</h3>
       <p>{quiz.description}</p>
       <div className={css.bottomBlock}>
-        <p>{`Questions: ${quiz.questions}`}</p>
-        <p>{`Completions: ${quiz.completions}`}</p>
+        <p>{`Questions: ${quiz.questionCount}`}</p>
+        {quiz.completions !== undefined && (
+          <p>{`Completions: ${quiz.completions}`}</p>
+        )}
       </div>
       <div ref={containerRef}>
         <button

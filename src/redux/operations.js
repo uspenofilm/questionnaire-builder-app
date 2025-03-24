@@ -12,7 +12,7 @@ export const fetchQuiz = createAsyncThunk(
       const response = await authInstance.get(
         `/quiz?page=${_?.page ?? 1}&limit=12`
       );
-      return response.data.data;
+      return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
@@ -24,7 +24,7 @@ export const addQuiz = createAsyncThunk(
   async (quiz, thunkAPI) => {
     try {
       const response = await authInstance.post("/quiz/", quiz);
-      return response.data.data;
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -36,7 +36,7 @@ export const deleteQuiz = createAsyncThunk(
   async (quizId, thunkAPI) => {
     try {
       const response = await authInstance.delete(`/quiz/${quizId}`);
-      return response.data.data;
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

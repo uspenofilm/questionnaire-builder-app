@@ -4,15 +4,19 @@ import { v4 as uuid } from "uuid";
 import css from "./QuizBuilder.module.css";
 import { useDispatch } from "react-redux";
 import { addQuiz } from "../../redux/operations.js";
+import { useSelector } from "react-redux";
+import { resetAddItemStatus } from "../../redux/slice.js";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
-  title: "",
+  name: "",
   description: "",
   questions: [],
 };
 
 const validationSchema = Yup.object({
-  title: Yup.string().required("Title is required"),
+  name: Yup.string().required("Title is required"),
   description: Yup.string().required("Description is required"),
   questions: Yup.array()
     .of(
@@ -122,7 +126,22 @@ function QuestionItem({ q, index, remove }) {
 }
 
 export default function QuizBuilder() {
+  const { addItemStatus, addItemError } = useSelector((state) => state.quiz);
+  console.log("[QuizBuilder]", { addItemStatus, addItemError });
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(resetAddItemStatus());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (addItemStatus === "succeeded") {
+      dispatch(resetAddItemStatus());
+      alert("Saved");
+      navigate("/");
+    }
+  }, [addItemStatus, navigate]);
 
   const onAddQuiz = (newQuiz) => {
     dispatch(addQuiz(newQuiz));
@@ -130,47 +149,33 @@ export default function QuizBuilder() {
 
   const handleSubmit = async (values) => {
     const questionCount = values.questions.length;
-    onAddQuiz(values);
 
     const payload = {
       ...values,
       questionCount,
     };
 
+    onAddQuiz(payload);
+
     console.log("Submitting questionnaire:", payload);
-
-    // try {
-    //   const response = await fetch("https:", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(payload),
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error("Failed to save questionnaire");
-    //   }
-
-    //   alert(
-    //     `Questionnaire saved successfully! Total questions: ${questionCount}`
-    //   );
-    // } catch (error) {
-    //   console.error("Error saving questionnaire:", error);
-    //   alert("Error saving questionnaire. Please try again.");
-    // }
   };
 
   return (
     <div>
+      {addItemStatus === "failed" && alert("Error!")}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {({ values }) => (
-          <Form className={css.container}>
+          <Form
+            className={css.container}
+            disabled={addItemStatus !== "loading"}
+          >
             <label>Title</label>
-            <Field name="title" type="text" className={css.field} />
-            <ErrorMessage name="title" component="div" className={css.error} />
+            <Field name="name" type="text" className={css.field} />
+            <ErrorMessage name="name" component="div" className={css.error} />
             <label>Description</label>
             <Field name="description" type="text" className={css.field} />
             <ErrorMessage
@@ -181,6 +186,13 @@ export default function QuizBuilder() {
             <FieldArray name="questions">
               {({ push, remove }) => (
                 <div>
+                  {values.questions.length === 0 && (
+                    <ErrorMessage
+                      name="questions"
+                      component="div"
+                      className={css.error}
+                    />
+                  )}
                   {values.questions.map((q, index) => (
                     <QuestionItem
                       key={q.id || index}
@@ -202,8 +214,12 @@ export default function QuizBuilder() {
               )}
             </FieldArray>
 
-            <button type="submit" className={css.saveBtn}>
-              Save
+            <button
+              type="submit"
+              disabled={addItemStatus === "loading"}
+              className={css.saveBtn}
+            >
+              {addItemStatus === "loading" ? "Saving..." : "Save"}
             </button>
           </Form>
         )}
